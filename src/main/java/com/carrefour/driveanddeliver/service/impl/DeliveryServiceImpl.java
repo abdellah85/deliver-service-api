@@ -4,10 +4,13 @@ import com.carrefour.driveanddeliver.exception.ResourceNotFoundException;
 import com.carrefour.driveanddeliver.model.Delivery;
 import com.carrefour.driveanddeliver.model.enumeration.DeliveryMethod;
 import com.carrefour.driveanddeliver.repository.DeliveryRepository;
+import com.carrefour.driveanddeliver.service.DeliveryEventPublisher;
 import com.carrefour.driveanddeliver.service.DeliveryService;
+import com.carrefour.driveanddeliver.service.TimeSlotService;
 import com.carrefour.driveanddeliver.service.UserService;
 import com.carrefour.driveanddeliver.service.dto.DeliveryDTO;
 import com.carrefour.driveanddeliver.service.dto.EnumDTO;
+import com.carrefour.driveanddeliver.service.dto.TimeSlotDTO;
 import com.carrefour.driveanddeliver.service.dto.UserDTO;
 import com.carrefour.driveanddeliver.service.mapper.DeliveryMapper;
 import lombok.AllArgsConstructor;
@@ -26,9 +29,12 @@ import java.util.List;
 public class DeliveryServiceImpl implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
+    private final TimeSlotService timeSlotService;
 
     private final UserService userService;
     private final DeliveryMapper deliveryMapper;
+
+    private final DeliveryEventPublisher eventPublisher;
 
     /**
      * Retrieves a delivery by its ID.
@@ -53,10 +59,15 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Transactional
     public DeliveryDTO createDelivery(DeliveryDTO deliveryDTO) {
 
+        TimeSlotDTO timeSlotDTO = timeSlotService.bookTimeSlot(deliveryDTO.getTimeSlot().getId());
+        deliveryDTO.setTimeSlot(timeSlotDTO);
         UserDTO userDTO = userService.getCurrentUser();
         deliveryDTO.setCustomer(userDTO);
         Delivery delivery = deliveryMapper.toEntity(deliveryDTO);
         Delivery savedDelivery = deliveryRepository.save(delivery);
+
+        eventPublisher.publishTimeSlotBooked(deliveryDTO.getCustomer().getId(), deliveryDTO.getDeliveryMethod(),
+                deliveryDTO.getTimeSlot().getId());
 
         return deliveryMapper.toDto(savedDelivery);
     }

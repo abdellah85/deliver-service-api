@@ -1,8 +1,9 @@
 package com.carrefour.driveanddeliver.controller.constant;
 
 public class UrlConstantes {
-    
 
+    public static final String TIMESLOTS_URL = "/time-slots";
+    public static final String AVAILABLE_TIMESLOTS_URL = "/available";
     public static final String DELIVERIES_URL = "/deliveries";
     public static final String USERS_URL = "/users";
     public static final String USER_REGISTER_URL = "/register";

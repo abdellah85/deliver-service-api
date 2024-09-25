@@ -7,23 +7,25 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 @Data
 @Builder
-public class DeliveryDTO extends RepresentationModel<DeliveryDTO> {
+public class TimeSlotDTO extends RepresentationModel<TimeSlotDTO> {
 
     private Long id;
 
     @NotNull(message = "Delivery method must not be null")
     private DeliveryMethod deliveryMethod;
 
-    @NotNull(message = "Delivery date must not be null")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate deliveryDate;
+    @NotNull(message = "start time must not be null")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    private LocalTime startTime;
 
-    @NotNull(message = "time slot must not be null")
-    private TimeSlotDTO timeSlot;
+    @NotNull(message = "end time must not be null")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    private LocalTime endTime;
 
-    private UserDTO customer;
+    private boolean booked;
 }

@@ -1,20 +1,20 @@
 package com.carrefour.driveanddeliver.model;
 
 import com.carrefour.driveanddeliver.model.enumeration.DeliveryMethod;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
+@Table(name = "time_slot")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Delivery implements Serializable {
+public class TimeSlot implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,14 +26,9 @@ public class Delivery implements Serializable {
     @Column(name = "delivery_method", length = 20, nullable = false)
     private DeliveryMethod deliveryMethod;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate deliveryDate;
+    private LocalTime startTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "time_slot_id", nullable = false)
-    private TimeSlot timeSlot;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private User customer;
+    private LocalTime endTime;
+    
+    private boolean booked;
 }
