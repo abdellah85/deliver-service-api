@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:deliverdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+  config:
+    import: documentation.properties    
+jwt:
+  secret: 586E3272357538782F413F4428472B4B6250655368566B597033733676397924
+  expiration: 120
