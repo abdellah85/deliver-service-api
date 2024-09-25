@@ -81,16 +81,16 @@ You can access the application at   http://localhost:8080.
 
 The project can be containerized using Docker. 
 
-The Dockerfile is located in the ```drive-and-deliver-api``` folder. To build the Docker image, follow these steps:
+The Dockerfile is located in the ```deliver-service-api``` folder. To build the Docker image, follow these steps:
 
-1. Navigate to the drive-and-deliver-api directory:
+1. Navigate to the deliver-service-api directory:
    ```bash
-   cd drive-and-deliver-api
+   cd deliver-service-api
    ```
 
 2. Build the Docker image using the following command:
    ```bash
-   docker build -t drive-and-deliver .
+   docker build -t deliver-service-api .
    ```
 
 **Running the Docker Container**
@@ -98,7 +98,7 @@ The Dockerfile is located in the ```drive-and-deliver-api``` folder. To build th
 Once the image is built, you can run the application in a Docker container:
 
 ```bash
-docker run -p 8080:8080 drive-and-deliver
+docker run -p 8080:8080 deliver-service-api
 ```
 
 This command maps port 8080 on your local machine to port 8080 in the container, allowing you to access the application at http://localhost:8080.
